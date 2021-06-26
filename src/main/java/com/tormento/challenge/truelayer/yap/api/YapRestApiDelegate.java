@@ -39,6 +39,7 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
 
     @Override
     public Mono<ResponseEntity<Pokemon>> getPokemonInfo(String name, ServerWebExchange exchange) {
+        log.info("getPokemonInfo invoked - name={}", name);
         return pokemonSpeciesApi.getPokemonSpecies(name).map(species -> {
             Pokemon pokemon = new Pokemon();
             pokemon.setName(name);
@@ -49,12 +50,15 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
                     .filter(f -> f.getLanguage().getName().equalsIgnoreCase("en"))
                     .findAny()
                     .ifPresent(f -> pokemon.setDescription(f.getFlavorText()));
+            log.info("getPokemonInfo success!");
+            log.debug("getPokemonInfo response: {}", pokemon.toString());
             return ResponseEntity.status(HttpStatus.OK).body(pokemon);
         });
     }
 
     @Override
     public Mono<ResponseEntity<Pokemon>> getTranslatedPokemonInfo(String name, ServerWebExchange exchange) {
+        log.info("getTranslatedPokemonInfo invoked - name={}", name);
         return pokemonSpeciesApi.getPokemonSpecies(name).flatMap(species -> {
             String habitat = species.getHabitat().getName();
             boolean isLegendary = species.getIsLegendary();
@@ -73,6 +77,8 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
                         if (response.getSuccess().getTotal().compareTo(BigDecimal.ZERO) > 0) {
                             pokemon.setDescription(response.getContents().getTranslated());
                         }
+                        log.info("getTranslatedPokemonInfo success!");
+                        log.debug("getTranslatedPokemonInfo response: {}", pokemon.toString());
                         return ResponseEntity.status(HttpStatus.OK).body(pokemon);
                     });
         });
