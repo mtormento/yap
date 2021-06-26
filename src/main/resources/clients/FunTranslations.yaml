@@ -20,14 +20,15 @@ paths:
                 $ref: '#/components/schemas/Response'
       operationId: funTranslate
       description: Translate from English to selected fun language.
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-            examples: {}
       tags:
         - FunTranslations
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: text
+          description: Text to translate
+          required: true
     parameters:
       - schema:
           type: string

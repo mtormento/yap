@@ -7,7 +7,7 @@ info:
     email: shanefalco80@gmail.com
   description: Yet Another Pokedex
 servers:
-  - url: 'http://localhost:8000'
+  - url: 'http://localhost:8080'
 paths:
   '/pokemon/{name}':
     get:

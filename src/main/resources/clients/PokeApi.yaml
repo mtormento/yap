@@ -35,6 +35,7 @@ components:
     PokemonSpecies:
       description: ''
       type: object
+      x-examples: {}
       properties:
         id:
           type: number
@@ -62,222 +63,61 @@ components:
         forms_switchable:
           type: boolean
         growth_rate:
-          type: object
-          properties:
-            name:
-              type: string
-              minLength: 1
-            url:
-              type: string
-              minLength: 1
-          required:
-            - name
-            - url
+          $ref: '#/components/schemas/NamedApiResource'
         pokedex_numbers:
           type: array
           uniqueItems: true
           minItems: 1
           items:
-            required:
-              - entry_number
-            properties:
-              entry_number:
-                type: number
-              pokedex:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    minLength: 1
-                  url:
-                    type: string
-                    minLength: 1
-                required:
-                  - name
-                  - url
+            $ref: '#/components/schemas/PokemonSpeciesDexEntry'
         egg_groups:
           type: array
           uniqueItems: true
           minItems: 1
           items:
-            required:
-              - name
-              - url
-            properties:
-              name:
-                type: string
-                minLength: 1
-              url:
-                type: string
-                minLength: 1
+            $ref: '#/components/schemas/NamedApiResource'
         color:
-          type: object
-          properties:
-            name:
-              type: string
-              minLength: 1
-            url:
-              type: string
-              minLength: 1
-          required:
-            - name
-            - url
+          $ref: '#/components/schemas/NamedApiResource'
         shape:
-          type: object
-          properties:
-            name:
-              type: string
-              minLength: 1
-            url:
-              type: string
-              minLength: 1
-          required:
-            - name
-            - url
+          $ref: '#/components/schemas/PokemonSpeciesDexEntry'
         evolves_from_species:
-          type: object
-          properties:
-            name:
-              type: string
-              minLength: 1
-            url:
-              type: string
-              minLength: 1
-          required:
-            - name
-            - url
+          $ref: '#/components/schemas/PokemonSpeciesDexEntry'
         evolution_chain:
-          type: object
-          properties:
-            url:
-              type: string
-              minLength: 1
-          required:
-            - url
-        habitat: {}
+          $ref: '#/components/schemas/APIResource'
+        habitat:
+          $ref: '#/components/schemas/NamedApiResource'
         generation:
-          type: object
-          properties:
-            name:
-              type: string
-              minLength: 1
-            url:
-              type: string
-              minLength: 1
-          required:
-            - name
-            - url
+          $ref: '#/components/schemas/NamedApiResource'
         names:
           type: array
           uniqueItems: true
           minItems: 1
           items:
-            required:
-              - name
-            properties:
-              name:
-                type: string
-                minLength: 1
-              language:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    minLength: 1
-                  url:
-                    type: string
-                    minLength: 1
-                required:
-                  - name
-                  - url
+            $ref: '#/components/schemas/Name'
         flavor_text_entries:
           type: array
           uniqueItems: true
           minItems: 1
           items:
-            required:
-              - flavor_text
-            properties:
-              flavor_text:
-                type: string
-                minLength: 1
-              language:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    minLength: 1
-                  url:
-                    type: string
-                    minLength: 1
-                required:
-                  - name
-                  - url
-              version:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    minLength: 1
-                  url:
-                    type: string
-                    minLength: 1
-                required:
-                  - name
-                  - url
+            $ref: '#/components/schemas/FlavorTextEntry'
         form_descriptions:
           type: array
           uniqueItems: true
           minItems: 1
           items:
-            required:
-              - description
-            properties:
-              description:
-                type: string
-                minLength: 1
-              language:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    minLength: 1
-                  url:
-                    type: string
-                    minLength: 1
-                required:
-                  - name
-                  - url
+            $ref: '#/components/schemas/Description'
         genera:
           type: array
           uniqueItems: true
           minItems: 1
           items:
-            required:
-              - genus
-            properties:
-              genus:
-                type: string
-                minLength: 1
-              language:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    minLength: 1
-                  url:
-                    type: string
-                    minLength: 1
-                required:
-                  - name
-                  - url
+            $ref: '#/components/schemas/Genus'
         varieties:
           type: array
           uniqueItems: true
           minItems: 1
           items:
-            required:
-              - is_default
+            type: object
             properties:
               is_default:
                 type: boolean
@@ -293,6 +133,8 @@ components:
                 required:
                   - name
                   - url
+            required:
+              - is_default
       required:
         - id
         - name
@@ -319,73 +161,92 @@ components:
         - form_descriptions
         - genera
         - varieties
+    FlavorTextEntry:
+      description: ''
+      type: object
+      x-examples: {}
+      properties:
+        flavor_text:
+          type: string
+          minLength: 1
+        language:
+          $ref: '#/components/schemas/NamedApiResource'
+        version:
+          $ref: '#/components/schemas/NamedApiResource'
+      required:
+        - flavor_text
+        - language
+        - version
+    Version:
+      description: ''
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          minLength: 1
+      required:
+        - name
+        - url
       x-examples:
-        Example:
-          id: 0
-          name: string
-          order: 0
-          gender_rate: 0
-          capture_rate: 0
-          base_happiness: 0
-          is_baby: true
-          is_legendary: true
-          is_mythical: true
-          hatch_counter: 0
-          has_gender_differences: true
-          forms_switchable: true
-          growth_rate:
-            name: string
-            url: string
-          pokedex_numbers:
-            - entry_number: 0
-              pokedex:
-                name: string
-                url: string
-          egg_groups:
-            - name: string
-              url: string
-          color:
-            name: string
-            url: string
-          shape:
-            name: string
-            url: string
-          evolves_from_species:
-            name: string
-            url: string
-          evolution_chain:
-            url: string
-          habitat: null
-          generation:
-            name: string
-            url: string
-          names:
-            - name: string
-              language:
-                name: string
-                url: string
-          flavor_text_entries:
-            - flavor_text: string
-              language:
-                name: string
-                url: string
-              version:
-                name: string
-                url: string
-          form_descriptions:
-            - description: string
-              language:
-                name: string
-                url: string
-          genera:
-            - genus: string
-              language:
-                name: string
-                url: string
-          varieties:
-            - is_default: true
-              pokemon:
-                name: string
-                url: string
+        example-1:
+          name: red
+          url: 'https://pokeapi.co/api/v2/version/1/'
+    NamedApiResource:
+      title: NamedApiResource
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+    PokemonSpeciesDexEntry:
+      title: PokemonSpeciesDexEntry
+      type: object
+      properties:
+        entry_number:
+          type: string
+        pokedex:
+          $ref: '#/components/schemas/NamedApiResource'
+    APIResource:
+      title: APIResource
+      type: object
+      properties:
+        url:
+          type: string
+    Name:
+      title: Name
+      type: object
+      properties:
+        name:
+          type: string
+        language:
+          $ref: '#/components/schemas/NamedApiResource'
+    Description:
+      title: Description
+      type: object
+      properties:
+        description:
+          type: string
+        language:
+          type: string
+    Genus:
+      title: Genus
+      type: object
+      properties:
+        genus:
+          type: string
+        language:
+          $ref: '#/components/schemas/NamedApiResource'
+    PokemonSpeciesVariety:
+      title: PokemonSpeciesVariety
+      type: object
+      properties:
+        is_default:
+          type: boolean
+        pokemon:
+          $ref: '#/components/schemas/NamedApiResource'
 tags:
   - name: Poke
