@@ -11,8 +11,6 @@ paths:
   '/pokemon-species/{name}':
     get:
       summary: Get Pokemon Species
-      tags:
-        - Poke
       responses:
         '200':
           description: OK
@@ -23,6 +21,8 @@ paths:
               examples: {}
       operationId: getPokemonSpecies
       description: A Pokémon Species forms the basis for at least one Pokémon. Attributes of a Pokémon species are shared across all varieties of Pokémon within the species.
+      tags:
+        - PokemonSpecies
     parameters:
       - schema:
           type: string
@@ -249,4 +249,4 @@ components:
         pokemon:
           $ref: '#/components/schemas/NamedApiResource'
 tags:
-  - name: Poke
+  - name: PokemonSpecies

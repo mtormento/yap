@@ -9,8 +9,9 @@ servers:
   - url: 'https://api.funtranslations.com'
 paths:
   '/translate/{type}.json':
-    get:
-      summary: Translates text to a fun language
+    post:
+      summary: Translate
+      operationId: translate
       responses:
         '200':
           description: OK
@@ -18,17 +19,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-      operationId: funTranslate
-      description: Translate from English to selected fun language.
+      description: Translates text to a fun language of choice
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+              required:
+                - text
       tags:
         - FunTranslations
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: text
-          description: Text to translate
-          required: true
     parameters:
       - schema:
           type: string
@@ -76,3 +79,5 @@ components:
             translation: yoda
             text: Master Obiwan has lost a planet.
             translated: <translated text>
+tags:
+  - name: FunTranslations

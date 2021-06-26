@@ -1,8 +1,7 @@
 package com.tormento.challenge.truelayer.yap.api;
 
 import com.tormento.challenge.truelayer.yap.api.client.funtranslations.FunTranslationsApi;
-import com.tormento.challenge.truelayer.yap.api.client.pokeapi.PokeApi;
-import com.tormento.challenge.truelayer.yap.api.client.pokeapi.model.FlavorTextEntry;
+import com.tormento.challenge.truelayer.yap.api.client.pokeapi.PokemonSpeciesApi;
 import com.tormento.challenge.truelayer.yap.api.model.Pokemon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,21 +19,27 @@ import java.time.Duration;
 
 @Service
 public class YapRestApiDelegate  implements PokemonApiDelegate {
+    private static final String LANGUAGE_ENGLISH = "en";
+    private static final String HABITAT_CAVE = "cave";
+    private static final String TRANSLATION_LANGUAGE_YODA = "yoda";
+    private static final String TRANSLATION_LANGUAGE_SHAKESPEARE = "shakespeare";
+
     private Logger log = LoggerFactory.getLogger(YapRestApiDelegate.class);
-    private PokeApi pokeApi;
+
+    private PokemonSpeciesApi pokemonSpeciesApi;
     private FunTranslationsApi funTranslationsApi;
 
     @Autowired
-    public YapRestApiDelegate(PokeApi pokeApi, FunTranslationsApi funTranslationsApi) {
-        this.pokeApi = pokeApi;
+    public YapRestApiDelegate(PokemonSpeciesApi pokemonSpeciesApi, FunTranslationsApi funTranslationsApi) {
+        this.pokemonSpeciesApi = pokemonSpeciesApi;
         this.funTranslationsApi = funTranslationsApi;
-        pokeApi.getApiClient()
+        pokemonSpeciesApi.getApiClient()
                .addDefaultHeader(HttpHeaders.CACHE_CONTROL, CacheControl.maxAge(Duration.ofMinutes(60)).getHeaderValue());
     }
 
     @Override
     public Mono<ResponseEntity<Pokemon>> getPokemonInfo(String name, ServerWebExchange exchange) {
-        return pokeApi.getPokemonSpecies(name).map(species -> {
+        return pokemonSpeciesApi.getPokemonSpecies(name).map(species -> {
             Pokemon pokemon = new Pokemon();
             pokemon.setName(name);
             pokemon.setHabitat(species.getHabitat().getName());
@@ -50,7 +55,7 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
 
     @Override
     public Mono<ResponseEntity<Pokemon>> getTranslatedPokemonInfo(String name, ServerWebExchange exchange) {
-        return pokeApi.getPokemonSpecies(name).flatMap(species -> {
+        return pokemonSpeciesApi.getPokemonSpecies(name).flatMap(species -> {
             String habitat = species.getHabitat().getName();
             boolean isLegendary = species.getIsLegendary();
             Pokemon pokemon = new Pokemon();
@@ -59,11 +64,11 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
             pokemon.setIsLegendary(isLegendary);
             species.getFlavorTextEntries()
                     .stream()
-                    .filter(f -> f.getLanguage().getName().equalsIgnoreCase("en"))
+                    .filter(f -> f.getLanguage().getName().equalsIgnoreCase(LANGUAGE_ENGLISH))
                     .findAny()
                     .ifPresent(f -> pokemon.setDescription(f.getFlavorText()));
-            boolean useYodaTranslation = habitat.equalsIgnoreCase("cave") || isLegendary;
-            return funTranslationsApi.funTranslate(useYodaTranslation ? "yoda" : "shakespeare", pokemon.getDescription())
+            boolean useYodaTranslation = habitat.equalsIgnoreCase(HABITAT_CAVE) || isLegendary;
+            return funTranslationsApi.translate(useYodaTranslation ? TRANSLATION_LANGUAGE_YODA : TRANSLATION_LANGUAGE_SHAKESPEARE, pokemon.getDescription())
                     .map(response -> {
                         if (response.getSuccess().getTotal().compareTo(BigDecimal.ZERO) > 0) {
                             pokemon.setDescription(response.getContents().getTranslated());

@@ -1,7 +1,7 @@
 package com.tormento.challenge.truelayer.yap.config;
 
 import com.tormento.challenge.truelayer.yap.api.client.pokeapi.ApiClient;
-import com.tormento.challenge.truelayer.yap.api.client.pokeapi.PokeApi;
+import com.tormento.challenge.truelayer.yap.api.client.pokeapi.PokemonSpeciesApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Configuration;
 public class PokeApiIntegrationConfig {
 
     @Bean
-    public PokeApi pokeApi() {
-        return new PokeApi(pokeApiClient());
+    public PokemonSpeciesApi pokemonSpeciesApi() {
+        return new PokemonSpeciesApi(pokemonSpeciesApiClient());
     }
 
     @Bean
-    public ApiClient pokeApiClient() {
+    public ApiClient pokemonSpeciesApiClient() {
         return new ApiClient();
     }
 }
