@@ -67,6 +67,11 @@
 			<artifactId>validation-api</artifactId>
 			<version>1.1.0.Final</version>
 		</dependency>
+		<dependency>
+	  		<groupId>com.google.code.findbugs</groupId>
+	  		<artifactId>jsr305</artifactId>
+	  		<version>3.0.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -113,6 +118,42 @@
 							<apiPackage>com.tormento.challenge.truelayer.yap.api</apiPackage>
 							<modelPackage>com.tormento.challenge.truelayer.yap.api.model</modelPackage>
 							<invokerPackage>com.tormento.challenge.truelayer.yap</invokerPackage>
+							<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>
+						</configuration>
+					</execution>
+					<execution>
+						<id>pokeapi-rest-client</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/clients/PokeApi.yaml</inputSpec>
+							<generatorName>java</generatorName>
+							<configOptions>
+								<dateLibrary>joda</dateLibrary>
+							</configOptions>
+							<library>webclient</library>
+							<apiPackage>com.tormento.challenge.truelayer.yap.api.client.pokeapi</apiPackage>
+							<modelPackage>com.tormento.challenge.truelayer.yap.api.client.pokeapi.model</modelPackage>
+							<invokerPackage>com.tormento.challenge.truelayer.yap.api.client.pokeapi</invokerPackage>
+							<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>
+						</configuration>
+					</execution>
+					<execution>
+						<id>fun-translations-rest-api</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/clients/FunTranslations.yaml</inputSpec>
+							<generatorName>java</generatorName>
+							<configOptions>
+								<dateLibrary>joda</dateLibrary>
+							</configOptions>
+							<library>webclient</library>
+							<apiPackage>com.tormento.challenge.truelayer.yap.api.client.funtranslations</apiPackage>
+							<modelPackage>com.tormento.challenge.truelayer.yap.api.client.funtranslations.model</modelPackage>
+							<invokerPackage>com.tormento.challenge.truelayer.yap.api.client.funtranslations</invokerPackage>
 							<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>
 						</configuration>
 					</execution>

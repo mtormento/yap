@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: FunTranslations
+  version: '1.0'
+  description: Fun Translations
+  contact:
+    url: 'https://funtranslations.com/'
+servers:
+  - url: 'https://api.funtranslations.com'
+paths:
+  '/translate/{type}.json':
+    get:
+      summary: Translates text to a fun language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: funTranslate
+      description: Translate from English to selected fun language.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+            examples: {}
+      tags:
+        - FunTranslations
+    parameters:
+      - schema:
+          type: string
+        name: type
+        in: path
+        required: true
+        description: Type of translation
+components:
+  schemas:
+    Response:
+      description: ''
+      type: object
+      properties:
+        success:
+          type: object
+          properties:
+            total:
+              type: number
+          required:
+            - total
+        contents:
+          type: object
+          properties:
+            translation:
+              type: string
+              minLength: 1
+            text:
+              type: string
+              minLength: 1
+            translated:
+              type: string
+              minLength: 1
+          required:
+            - translation
+            - text
+            - translated
+      required:
+        - success
+        - contents
+      x-examples:
+        Example:
+          success:
+            total: 1
+          contents:
+            translation: yoda
+            text: Master Obiwan has lost a planet.
+            translated: <translated text>

@@ -1,0 +1,391 @@
+openapi: 3.0.0
+info:
+  title: PokeApi
+  version: '2.0'
+  description: PokéAPI is free and open to use.
+  contact:
+    name: Paul Hallett
+servers:
+  - url: 'https://pokeapi.co/api/v2'
+paths:
+  '/pokemon-species/{name}':
+    get:
+      summary: Get Pokemon Species
+      tags:
+        - Poke
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PokemonSpecies'
+              examples: {}
+      operationId: getPokemonSpecies
+      description: A Pokémon Species forms the basis for at least one Pokémon. Attributes of a Pokémon species are shared across all varieties of Pokémon within the species.
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+        description: Pokemon name
+components:
+  schemas:
+    PokemonSpecies:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+          minLength: 1
+        order:
+          type: number
+        gender_rate:
+          type: number
+        capture_rate:
+          type: number
+        base_happiness:
+          type: number
+        is_baby:
+          type: boolean
+        is_legendary:
+          type: boolean
+        is_mythical:
+          type: boolean
+        hatch_counter:
+          type: number
+        has_gender_differences:
+          type: boolean
+        forms_switchable:
+          type: boolean
+        growth_rate:
+          type: object
+          properties:
+            name:
+              type: string
+              minLength: 1
+            url:
+              type: string
+              minLength: 1
+          required:
+            - name
+            - url
+        pokedex_numbers:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - entry_number
+            properties:
+              entry_number:
+                type: number
+              pokedex:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  url:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - url
+        egg_groups:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - name
+              - url
+            properties:
+              name:
+                type: string
+                minLength: 1
+              url:
+                type: string
+                minLength: 1
+        color:
+          type: object
+          properties:
+            name:
+              type: string
+              minLength: 1
+            url:
+              type: string
+              minLength: 1
+          required:
+            - name
+            - url
+        shape:
+          type: object
+          properties:
+            name:
+              type: string
+              minLength: 1
+            url:
+              type: string
+              minLength: 1
+          required:
+            - name
+            - url
+        evolves_from_species:
+          type: object
+          properties:
+            name:
+              type: string
+              minLength: 1
+            url:
+              type: string
+              minLength: 1
+          required:
+            - name
+            - url
+        evolution_chain:
+          type: object
+          properties:
+            url:
+              type: string
+              minLength: 1
+          required:
+            - url
+        habitat: {}
+        generation:
+          type: object
+          properties:
+            name:
+              type: string
+              minLength: 1
+            url:
+              type: string
+              minLength: 1
+          required:
+            - name
+            - url
+        names:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                minLength: 1
+              language:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  url:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - url
+        flavor_text_entries:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - flavor_text
+            properties:
+              flavor_text:
+                type: string
+                minLength: 1
+              language:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  url:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - url
+              version:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  url:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - url
+        form_descriptions:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - description
+            properties:
+              description:
+                type: string
+                minLength: 1
+              language:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  url:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - url
+        genera:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - genus
+            properties:
+              genus:
+                type: string
+                minLength: 1
+              language:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  url:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - url
+        varieties:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - is_default
+            properties:
+              is_default:
+                type: boolean
+              pokemon:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  url:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - url
+      required:
+        - id
+        - name
+        - order
+        - gender_rate
+        - capture_rate
+        - base_happiness
+        - is_baby
+        - is_legendary
+        - is_mythical
+        - hatch_counter
+        - has_gender_differences
+        - forms_switchable
+        - growth_rate
+        - pokedex_numbers
+        - egg_groups
+        - color
+        - shape
+        - evolves_from_species
+        - evolution_chain
+        - generation
+        - names
+        - flavor_text_entries
+        - form_descriptions
+        - genera
+        - varieties
+      x-examples:
+        Example:
+          id: 0
+          name: string
+          order: 0
+          gender_rate: 0
+          capture_rate: 0
+          base_happiness: 0
+          is_baby: true
+          is_legendary: true
+          is_mythical: true
+          hatch_counter: 0
+          has_gender_differences: true
+          forms_switchable: true
+          growth_rate:
+            name: string
+            url: string
+          pokedex_numbers:
+            - entry_number: 0
+              pokedex:
+                name: string
+                url: string
+          egg_groups:
+            - name: string
+              url: string
+          color:
+            name: string
+            url: string
+          shape:
+            name: string
+            url: string
+          evolves_from_species:
+            name: string
+            url: string
+          evolution_chain:
+            url: string
+          habitat: null
+          generation:
+            name: string
+            url: string
+          names:
+            - name: string
+              language:
+                name: string
+                url: string
+          flavor_text_entries:
+            - flavor_text: string
+              language:
+                name: string
+                url: string
+              version:
+                name: string
+                url: string
+          form_descriptions:
+            - description: string
+              language:
+                name: string
+                url: string
+          genera:
+            - genus: string
+              language:
+                name: string
+                url: string
+          varieties:
+            - is_default: true
+              pokemon:
+                name: string
+                url: string
+tags:
+  - name: Poke
