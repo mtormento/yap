@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: Yap
+  version: '1.0'
+  contact:
+    name: Marco Tormento
+    email: shanefalco80@gmail.com
+  description: Yet Another Pokedex
+servers:
+  - url: 'http://localhost:8000'
+paths:
+  '/pokemon/{name}':
+    get:
+      summary: Pokemon Information
+      tags:
+        - standard
+      responses:
+        '200':
+          description: Translated Pokemon Information
+          content:
+            application/json:
+              schema:
+                $ref: ./models/pokemon.v1.yaml
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ./models/error.v1.yaml
+      description: Returns standard Pokemon description and additional information
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+        description: Pokemon Name
+  '/pokemon/translated/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+        description: Pokemon Name
+    get:
+      summary: Translated Pokemon Information
+      tags:
+        - translated
+      responses:
+        '200':
+          description: Translated Pokemon Information
+          content:
+            application/json:
+              schema:
+                $ref: ./models/pokemon.v1.yaml
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: ./models/error.v1.yaml
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ./models/error.v1.yaml
+      description: Return translated Pokemon description and other basic information
+components:
+  schemas: {}
