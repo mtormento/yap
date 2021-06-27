@@ -26,13 +26,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
       description: Returns standard Pokemon description and additional information
       operationId: getPokemonInfo
     parameters:
@@ -65,14 +65,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Bad Request
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorResponse'
       description: Return translated Pokemon description and other basic information
       operationId: getTranslatedPokemonInfo
 components:
@@ -90,12 +90,18 @@ components:
           type: string
         isLegendary:
           type: boolean
-    Error:
-      title: Error
+    ErrorResponse:
+      description: ''
       type: object
+      x-examples:
+        example-1:
+          timestamp: '2021-06-27T16:42:15.600+0000'
+          path: /pokemon/translated/chari
+          error: pokemon 'chari' does not exist
+          requestId: c1a8ee28-1
       properties:
-        code:
+        message:
           type: string
-        description:
-          type: string
-      description: Error Details
+          minLength: 1
+      required:
+        - message

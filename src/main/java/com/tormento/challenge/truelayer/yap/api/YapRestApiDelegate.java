@@ -60,7 +60,7 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
                             .ifPresent(f -> pokemon.setDescription(f.getFlavorText()
                                     .replaceAll("\n", " ")
                                     .replaceAll("\f", " ")));
-                    log.info("getPokemonInfo success!");
+                    log.info("getPokemonInfo success: {} info retrieved", name);
                     log.debug("getPokemonInfo response: {}", pokemon.toString());
                     return ResponseEntity.status(HttpStatus.OK).body(pokemon);
                 });
@@ -90,7 +90,7 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
                                 if (response.getSuccess().getTotal().compareTo(BigDecimal.ZERO) > 0) {
                                     pokemon.setDescription(response.getContents().getTranslated());
                                 }
-                                log.info("getTranslatedPokemonInfo success!");
+                                log.info("getTranslatedPokemonInfo success: {} info retrieved", name);
                                 log.debug("getTranslatedPokemonInfo response: {}", pokemon.toString());
                                 return ResponseEntity.status(HttpStatus.OK).body(pokemon);
                             });

@@ -38,11 +38,14 @@ public class GlobalErrorWebExceptionHandler extends AbstractErrorWebExceptionHan
                             ErrorAttributeOptions.defaults());
 
                     errorPropertiesMap.remove("status");
+                    errorPropertiesMap.remove("timestamp");
+                    errorPropertiesMap.remove("path");
+                    errorPropertiesMap.remove("error");
                     HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
                     if (error instanceof PokemonDoesNotExistException) {
                        httpStatus = HttpStatus.BAD_REQUEST;
                     }
-                    errorPropertiesMap.put("error", error.getMessage());
+                    errorPropertiesMap.put("message", error.getMessage());
 
                     return ServerResponse.status(httpStatus)
                             .contentType(MediaType.APPLICATION_JSON)
