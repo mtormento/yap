@@ -37,10 +37,6 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
     public YapRestApiDelegate(PokemonSpeciesApi pokemonSpeciesApi, FunTranslationsApi funTranslationsApi) {
         this.pokemonSpeciesApi = pokemonSpeciesApi;
         this.funTranslationsApi = funTranslationsApi;
-        this.pokemonSpeciesApi.getApiClient()
-               .addDefaultHeader(HttpHeaders.CACHE_CONTROL, CacheControl.maxAge(Duration.ofMinutes(60)).getHeaderValue());
-        this.funTranslationsApi.getApiClient()
-                .addDefaultHeader(HttpHeaders.CACHE_CONTROL, CacheControl.maxAge(Duration.ofMinutes(60)).getHeaderValue());
     }
 
     @Override

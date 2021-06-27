@@ -13,6 +13,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.Assert.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, properties = "spring.main.web-application-type=reactive")
@@ -22,6 +24,8 @@ import static org.junit.Assert.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestPropertySource(locations = "classpath:test.properties")
 public class YapRestApiTest {
+    // Sleep time to avoid 429 too many requests when invoking external services
+    private static final int SLEEP_TIME = 1;
 
     @Autowired
     WebTestClient webClient;
@@ -31,7 +35,8 @@ public class YapRestApiTest {
     }
 
     @Test
-    public void getStandardPokemonInfo(){
+    public void getStandardPokemonInfo() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(SLEEP_TIME);
 
         Flux<Pokemon> resp = this.webClient.get().uri("/pokemon/{name}", "charizard")
                 .accept(MediaType.APPLICATION_JSON)
@@ -50,7 +55,8 @@ public class YapRestApiTest {
     }
 
     @Test
-    public void getShakespearianPokemonInfo(){
+    public void getShakespearianPokemonInfo() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(SLEEP_TIME);
 
         Flux<Pokemon> resp = this.webClient.get().uri("/pokemon/translated/{name}", "charizard")
                 .accept(MediaType.APPLICATION_JSON)
@@ -69,7 +75,8 @@ public class YapRestApiTest {
     }
 
     @Test
-    public void getYodaesquePokemonInfo(){
+    public void getYodaesquePokemonInfo() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(SLEEP_TIME);
 
         Flux<Pokemon> resp = this.webClient.get().uri("/pokemon/translated/{name}", "mewtwo")
                 .accept(MediaType.APPLICATION_JSON)
@@ -88,7 +95,8 @@ public class YapRestApiTest {
     }
 
     @Test
-    public void getNonExistantPokemonInfo(){
+    public void getNonExistentPokemonInfo() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(SLEEP_TIME);
 
         Flux<ErrorResponse> resp = this.webClient.get().uri("/pokemon/{name}", "nonexistent")
                 .accept(MediaType.APPLICATION_JSON)
