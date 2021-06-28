@@ -24,6 +24,8 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
     private static final String HABITAT_CAVE = "cave";
     private static final String TRANSLATION_LANGUAGE_YODA = "yoda";
     private static final String TRANSLATION_LANGUAGE_SHAKESPEARE = "shakespeare";
+    private static final String METHOD_GET_POKEMON_INFO = "getPokemonInfo";
+    private static final String METHOD_GET_TRANSLATED_POKEMON_INFO = "getTranslatedPokemonInfo";
 
     private Logger log = LoggerFactory.getLogger(YapRestApiDelegate.class);
 
@@ -40,71 +42,70 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
     public Mono<ResponseEntity<Pokemon>> getPokemonInfo(String name, ServerWebExchange exchange) {
         log.info("getPokemonInfo invoked - name={}", name);
         return pokemonSpeciesApi.getPokemonSpecies(name)
-                .onErrorResume(e -> handlePokeApiError("getPokemonInfo", e, name))
-                .map(species -> {
-                    Pokemon pokemon = new Pokemon();
-                    pokemon.setName(name);
-                    pokemon.setHabitat(species.getHabitat().getName());
-                    pokemon.setIsLegendary(species.getIsLegendary());
-                    species.getFlavorTextEntries()
-                            .stream()
-                            .filter(f -> f.getLanguage().getName().equalsIgnoreCase(LANGUAGE_ENGLISH))
-                            .findAny()
-                            // Replace some escaped characters and set description
-                            .ifPresent(f -> pokemon.setDescription(f.getFlavorText()
-                                    .replaceAll("\n", " ")
-                                    .replaceAll("\f", " ")));
-                    log.info("getPokemonInfo success: {} info retrieved", name);
-                    log.debug("getPokemonInfo response: {}", pokemon.toString());
-                    return ResponseEntity.status(HttpStatus.OK).body(pokemon);
-                });
+                .onErrorMap(e -> handlePokeApiError(METHOD_GET_POKEMON_INFO, e, name))
+                .map(species -> mapToPokemon(name, species))
+                .map(pokemon -> mapToResponseEntity(METHOD_GET_POKEMON_INFO, pokemon));
     }
 
     @Override
     public Mono<ResponseEntity<Pokemon>> getTranslatedPokemonInfo(String name, ServerWebExchange exchange) {
         log.info("getTranslatedPokemonInfo invoked - name={}", name);
         return pokemonSpeciesApi.getPokemonSpecies(name)
-                .onErrorResume(e -> handlePokeApiError("getTranslatedPokemonInfo", e, name))
-                .flatMap(species -> {
-                    String habitat = species.getHabitat().getName();
-                    boolean isLegendary = species.getIsLegendary();
-                    Pokemon pokemon = new Pokemon();
-                    pokemon.setName(name);
-                    pokemon.setHabitat(habitat);
-                    pokemon.setIsLegendary(isLegendary);
-                    species.getFlavorTextEntries()
-                            .stream()
-                            .filter(f -> f.getLanguage().getName().equalsIgnoreCase(LANGUAGE_ENGLISH))
-                            .findAny()
-                            .ifPresent(f -> pokemon.setDescription(f.getFlavorText()));
-                    boolean useYodaTranslation = habitat.equalsIgnoreCase(HABITAT_CAVE) || isLegendary;
+                .onErrorMap(e -> handlePokeApiError(METHOD_GET_TRANSLATED_POKEMON_INFO, e, name))
+                .map(species -> mapToPokemon(name, species))
+                .flatMap(pokemon -> {
+                    boolean useYodaTranslation = pokemon.getHabitat().equalsIgnoreCase(HABITAT_CAVE) || pokemon.getIsLegendary();
                     return funTranslationsApi.translate(useYodaTranslation ? TRANSLATION_LANGUAGE_YODA : TRANSLATION_LANGUAGE_SHAKESPEARE, pokemon.getDescription())
-                            .onErrorResume(e -> handleFunTranslationsApiError("getTranslatedPokemonInfo", e, name))
-                            .map(response -> {
-                                if (response.getSuccess().getTotal().compareTo(BigDecimal.ZERO) > 0) {
+                            .onErrorResume(e -> handleFunTranslationsApiError(METHOD_GET_TRANSLATED_POKEMON_INFO, e, name))
+                            .doOnNext(response -> {
+                                if (response.getSuccess() != null &&
+                                        response.getSuccess().getTotal().compareTo(BigDecimal.ZERO) > 0) {
                                     pokemon.setDescription(response.getContents().getTranslated());
                                 }
-                                log.info("getTranslatedPokemonInfo success: {} info retrieved", name);
-                                log.debug("getTranslatedPokemonInfo response: {}", pokemon.toString());
-                                return ResponseEntity.status(HttpStatus.OK).body(pokemon);
-                            });
+                            })
+                            .map(response -> mapToResponseEntity(METHOD_GET_TRANSLATED_POKEMON_INFO, pokemon));
                 });
     }
 
-    private Mono<? extends PokemonSpecies> handlePokeApiError(String method, Throwable e, String name) {
+    private ResponseEntity<Pokemon> mapToResponseEntity(String methodName, Pokemon pokemon) {
+        log.info("{} success: {} info retrieved", methodName, pokemon.getName());
+        log.debug("{} response: {}", methodName, pokemon.toString());
+        return ResponseEntity.status(HttpStatus.OK).body(pokemon);
+    }
+
+    private Pokemon mapToPokemon(String name, PokemonSpecies species) {
+        String habitat = species.getHabitat().getName();
+        boolean isLegendary = species.getIsLegendary();
+        Pokemon pokemon = new Pokemon();
+        pokemon.setName(name);
+        pokemon.setHabitat(habitat);
+        pokemon.setIsLegendary(isLegendary);
+        species.getFlavorTextEntries()
+                .stream()
+                .filter(f -> f.getLanguage().getName().equalsIgnoreCase(LANGUAGE_ENGLISH))
+                .findAny()
+                .ifPresent(f -> pokemon.setDescription(f.getFlavorText()
+                        // Clean escape chars
+                        .replaceAll("\n", " ")
+                        .replaceAll("\f", " ")));
+        return pokemon;
+    }
+
+    private Throwable handlePokeApiError(String methodName, Throwable e, String name) {
         if (e.getMessage().contains("404")) {
             // PokeApi responded with http status code 404, therefore a Pokemon with the specified name does not exist
             String message = String.format("pokemon '%s' does not exist", name);
-            log.warn("{} failed: {}", method, message);
-            return Mono.error(new PokemonDoesNotExistException(message, e));
+            log.warn("{} failed: {}", methodName, message);
+            return new PokemonDoesNotExistException(message, e);
         } else {
-            log.error("{} error invoking Poke api: {}", method, e.getMessage());
-            return Mono.error(new PokeApiException(e.getMessage(), e));
+            log.error("{} error invoking Poke api: {}", methodName, e.getMessage());
+            return new PokeApiException(e.getMessage(), e);
         }
     }
 
-    private Mono<? extends Response> handleFunTranslationsApiError(String method, Throwable e, String name) {
-        log.error("{} error invoking FunTranslations api: {}", method, e.getMessage());
-        return Mono.error(new PokeApiException(e.getMessage(), e));
+    private Mono<? extends Response> handleFunTranslationsApiError(String methodName, Throwable e, String name) {
+        log.warn("{} error invoking FunTranslations api: {}", methodName, e.getMessage());
+        // As per requirements, if the translation request fails we simply go on with the default description
+        return Mono.just(new Response());
     }
 }
