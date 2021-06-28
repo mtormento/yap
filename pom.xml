@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.tormento.challenge</groupId>
 	<artifactId>yap</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<name>yap</name>
 	<description>Yet Another Pokedex</description>
 	<properties>
