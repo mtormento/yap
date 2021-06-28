@@ -93,15 +93,13 @@ components:
     ErrorResponse:
       description: ''
       type: object
-      x-examples:
-        example-1:
-          timestamp: '2021-06-27T16:42:15.600+0000'
-          path: /pokemon/translated/chari
-          error: pokemon 'chari' does not exist
-          requestId: c1a8ee28-1
       properties:
+        requestId:
+          type: string
+          minLength: 1
         message:
           type: string
           minLength: 1
       required:
+        - requestId
         - message

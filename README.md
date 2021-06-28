@@ -19,6 +19,16 @@ java -jar target/yap*
 ```
 The service will be available on port 8080.
 
+## Docker
+To build the image:
+```sh
+docker build . -t yap
+```
+To run it:
+```sh
+docker run -p 8080:8080 yap
+```
+
 ## Considerations
 This service uses [PokeApi](https://pokeapi.co/) and [FunTranslations](https://funtranslations.com/) apis.  
 The first has a fair use policy, while the second actively rate limits requests: 60 a day with a distribution of 5 an hour.  
