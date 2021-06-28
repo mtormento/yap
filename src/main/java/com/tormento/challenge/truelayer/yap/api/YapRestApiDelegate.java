@@ -10,8 +10,6 @@ import com.tormento.challenge.truelayer.yap.exception.PokemonDoesNotExistExcepti
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 
 @Service
 public class YapRestApiDelegate  implements PokemonApiDelegate {
@@ -51,8 +48,9 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
                     pokemon.setIsLegendary(species.getIsLegendary());
                     species.getFlavorTextEntries()
                             .stream()
-                            .filter(f -> f.getLanguage().getName().equalsIgnoreCase("en"))
+                            .filter(f -> f.getLanguage().getName().equalsIgnoreCase(LANGUAGE_ENGLISH))
                             .findAny()
+                            // Replace some escaped characters and set description
                             .ifPresent(f -> pokemon.setDescription(f.getFlavorText()
                                     .replaceAll("\n", " ")
                                     .replaceAll("\f", " ")));
@@ -95,6 +93,7 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
 
     private Mono<? extends PokemonSpecies> handlePokeApiError(String method, Throwable e, String name) {
         if (e.getMessage().contains("404")) {
+            // PokeApi responded with http status code 404, therefore a Pokemon with the specified name does not exist
             String message = String.format("pokemon '%s' does not exist", name);
             log.warn("{} failed: {}", method, message);
             return Mono.error(new PokemonDoesNotExistException(message, e));

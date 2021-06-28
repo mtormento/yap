@@ -1,8 +1,6 @@
 package com.tormento.challenge.truelayer.yap.api.client.funtranslations;
 
-import com.tormento.challenge.truelayer.yap.api.client.funtranslations.FunTranslationsApi;
 import com.tormento.challenge.truelayer.yap.api.client.funtranslations.model.Response;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -13,11 +11,10 @@ import static org.junit.Assert.*;
  * API tests for FunTranslationsApi
  */
 public class FunTranslationsApiTest {
-
     private final FunTranslationsApi api = new FunTranslationsApi();
-/*
+
     @Test
-    public void translateTest()  {
+    public void translateTest() throws InterruptedException {
         String type = "yoda";
         String text = "this is a test";
         Response response = api.translate(type, text).block();
@@ -29,7 +26,7 @@ public class FunTranslationsApiTest {
     }
 
     @Test
-    public void emptyTextTest()  {
+    public void emptyTextTest() throws InterruptedException {
         String type = "yoda";
         String text = "";
         Response response = api.translate(type, text).block();
@@ -39,5 +36,4 @@ public class FunTranslationsApiTest {
         assertEquals("yoda", response.getContents().getTranslation());
         assertEquals("", response.getContents().getText());
     }
-*/
 }

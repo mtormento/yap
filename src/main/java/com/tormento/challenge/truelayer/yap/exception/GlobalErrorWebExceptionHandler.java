@@ -43,7 +43,7 @@ public class GlobalErrorWebExceptionHandler extends AbstractErrorWebExceptionHan
                     errorPropertiesMap.remove("error");
                     HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
                     if (error instanceof PokemonDoesNotExistException) {
-                       httpStatus = HttpStatus.BAD_REQUEST;
+                       httpStatus = HttpStatus.NOT_FOUND;
                     }
                     errorPropertiesMap.put("message", error.getMessage());
 
