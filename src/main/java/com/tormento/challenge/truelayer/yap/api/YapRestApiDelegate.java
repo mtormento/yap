@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-
 import java.math.BigDecimal;
 
 @Service
@@ -105,7 +104,7 @@ public class YapRestApiDelegate  implements PokemonApiDelegate {
 
     private Mono<? extends Response> handleFunTranslationsApiError(String methodName, Throwable e, String name) {
         log.warn("{} error invoking FunTranslations api: {}", methodName, e.getMessage());
-        // As per requirements, if the translation request fails we simply go on with the default description
+        // As per requirements, if the translation request fails we simply use the default description
         return Mono.just(new Response());
     }
 }
