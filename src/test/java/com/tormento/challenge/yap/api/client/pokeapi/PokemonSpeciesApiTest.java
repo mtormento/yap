@@ -1,6 +1,6 @@
-package com.tormento.challenge.truelayer.yap.api.client.pokeapi;
+package com.tormento.challenge.yap.api.client.pokeapi;
 
-import com.tormento.challenge.truelayer.yap.api.client.pokeapi.model.PokemonSpecies;
+import com.tormento.challenge.yap.api.client.pokeapi.model.PokemonSpecies;
 import org.junit.Test;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 

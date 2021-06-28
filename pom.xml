@@ -8,7 +8,7 @@
 		<version>2.5.1</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.tormento.challenge.truelayer</groupId>
+	<groupId>com.tormento.challenge</groupId>
 	<artifactId>yap</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>yap</name>
@@ -117,7 +117,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring-boot.version}</version>
 				<configuration>
-					<mainClass>com.tormento.challenge.truelayer.yap.YapApplication</mainClass>
+					<mainClass>com.tormento.challenge.yap.YapApplication</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -140,9 +140,9 @@
 								<java8>true</java8>
 							</configOptions>
 							<library>spring-boot</library>
-							<apiPackage>com.tormento.challenge.truelayer.yap.api</apiPackage>
-							<modelPackage>com.tormento.challenge.truelayer.yap.api.model</modelPackage>
-							<invokerPackage>com.tormento.challenge.truelayer.yap</invokerPackage>
+							<apiPackage>com.tormento.challenge.yap.api</apiPackage>
+							<modelPackage>com.tormento.challenge.yap.api.model</modelPackage>
+							<invokerPackage>com.tormento.challenge.yap</invokerPackage>
 							<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>
 						</configuration>
 					</execution>
@@ -158,9 +158,9 @@
 								<dateLibrary>joda</dateLibrary>
 							</configOptions>
 							<library>webclient</library>
-							<apiPackage>com.tormento.challenge.truelayer.yap.api.client.pokeapi</apiPackage>
-							<modelPackage>com.tormento.challenge.truelayer.yap.api.client.pokeapi.model</modelPackage>
-							<invokerPackage>com.tormento.challenge.truelayer.yap.api.client.pokeapi</invokerPackage>
+							<apiPackage>com.tormento.challenge.yap.api.client.pokeapi</apiPackage>
+							<modelPackage>com.tormento.challenge.yap.api.client.pokeapi.model</modelPackage>
+							<invokerPackage>com.tormento.challenge.yap.api.client.pokeapi</invokerPackage>
 							<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>
 						</configuration>
 					</execution>
@@ -176,9 +176,9 @@
 								<dateLibrary>joda</dateLibrary>
 							</configOptions>
 							<library>webclient</library>
-							<apiPackage>com.tormento.challenge.truelayer.yap.api.client.funtranslations</apiPackage>
-							<modelPackage>com.tormento.challenge.truelayer.yap.api.client.funtranslations.model</modelPackage>
-							<invokerPackage>com.tormento.challenge.truelayer.yap.api.client.funtranslations</invokerPackage>
+							<apiPackage>com.tormento.challenge.yap.api.client.funtranslations</apiPackage>
+							<modelPackage>com.tormento.challenge.yap.api.client.funtranslations.model</modelPackage>
+							<invokerPackage>com.tormento.challenge.yap.api.client.funtranslations</invokerPackage>
 							<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>
 						</configuration>
 					</execution>

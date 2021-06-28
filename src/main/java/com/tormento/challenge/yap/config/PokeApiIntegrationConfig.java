@@ -1,7 +1,7 @@
-package com.tormento.challenge.truelayer.yap.config;
+package com.tormento.challenge.yap.config;
 
-import com.tormento.challenge.truelayer.yap.api.client.pokeapi.ApiClient;
-import com.tormento.challenge.truelayer.yap.api.client.pokeapi.PokemonSpeciesApi;
+import com.tormento.challenge.yap.api.client.pokeapi.ApiClient;
+import com.tormento.challenge.yap.api.client.pokeapi.PokemonSpeciesApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

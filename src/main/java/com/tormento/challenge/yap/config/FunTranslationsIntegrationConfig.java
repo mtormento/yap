@@ -1,7 +1,7 @@
-package com.tormento.challenge.truelayer.yap.config;
+package com.tormento.challenge.yap.config;
 
-import com.tormento.challenge.truelayer.yap.api.client.funtranslations.ApiClient;
-import com.tormento.challenge.truelayer.yap.api.client.funtranslations.FunTranslationsApi;
+import com.tormento.challenge.yap.api.client.funtranslations.ApiClient;
+import com.tormento.challenge.yap.api.client.funtranslations.FunTranslationsApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

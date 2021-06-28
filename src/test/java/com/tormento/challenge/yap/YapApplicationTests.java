@@ -1,4 +1,4 @@
-package com.tormento.challenge.truelayer.yap;
+package com.tormento.challenge.yap;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

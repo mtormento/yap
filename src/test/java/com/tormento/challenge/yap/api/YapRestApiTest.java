@@ -1,8 +1,8 @@
-package com.tormento.challenge.truelayer.yap.api;
+package com.tormento.challenge.yap.api;
 
-import com.tormento.challenge.truelayer.yap.YapApplication;
-import com.tormento.challenge.truelayer.yap.api.model.ErrorResponse;
-import com.tormento.challenge.truelayer.yap.api.model.Pokemon;
+import com.tormento.challenge.yap.YapApplication;
+import com.tormento.challenge.yap.api.model.ErrorResponse;
+import com.tormento.challenge.yap.api.model.Pokemon;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;

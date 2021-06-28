@@ -1,4 +1,4 @@
-package com.tormento.challenge.truelayer.yap;
+package com.tormento.challenge.yap;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

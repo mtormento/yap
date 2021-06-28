@@ -1,4 +1,4 @@
-package com.tormento.challenge.truelayer.yap.exception;
+package com.tormento.challenge.yap.exception;
 
 public class PokemonDoesNotExistException extends Exception {
     public PokemonDoesNotExistException(String s, Throwable throwable) {

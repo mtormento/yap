@@ -1,4 +1,4 @@
-package com.tormento.challenge.truelayer.yap.exception;
+package com.tormento.challenge.yap.exception;
 
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes;

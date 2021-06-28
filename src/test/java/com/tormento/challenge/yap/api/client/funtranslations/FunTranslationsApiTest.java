@@ -1,6 +1,6 @@
-package com.tormento.challenge.truelayer.yap.api.client.funtranslations;
+package com.tormento.challenge.yap.api.client.funtranslations;
 
-import com.tormento.challenge.truelayer.yap.api.client.funtranslations.model.Response;
+import com.tormento.challenge.yap.api.client.funtranslations.model.Response;
 import org.junit.Test;
 
 import java.math.BigDecimal;

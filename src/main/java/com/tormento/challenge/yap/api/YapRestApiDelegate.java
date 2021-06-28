@@ -1,12 +1,12 @@
-package com.tormento.challenge.truelayer.yap.api;
+package com.tormento.challenge.yap.api;
 
-import com.tormento.challenge.truelayer.yap.api.client.funtranslations.FunTranslationsApi;
-import com.tormento.challenge.truelayer.yap.api.client.funtranslations.model.Response;
-import com.tormento.challenge.truelayer.yap.api.client.pokeapi.PokemonSpeciesApi;
-import com.tormento.challenge.truelayer.yap.api.client.pokeapi.model.PokemonSpecies;
-import com.tormento.challenge.truelayer.yap.api.model.Pokemon;
-import com.tormento.challenge.truelayer.yap.exception.PokeApiException;
-import com.tormento.challenge.truelayer.yap.exception.PokemonDoesNotExistException;
+import com.tormento.challenge.yap.api.client.funtranslations.FunTranslationsApi;
+import com.tormento.challenge.yap.api.client.funtranslations.model.Response;
+import com.tormento.challenge.yap.api.client.pokeapi.PokemonSpeciesApi;
+import com.tormento.challenge.yap.api.client.pokeapi.model.PokemonSpecies;
+import com.tormento.challenge.yap.api.model.Pokemon;
+import com.tormento.challenge.yap.exception.PokeApiException;
+import com.tormento.challenge.yap.exception.PokemonDoesNotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
